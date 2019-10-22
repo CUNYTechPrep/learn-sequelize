@@ -1,0 +1,10 @@
+node_modules
+
+*.sqlite3
+
+.DS_Store
+.env
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
