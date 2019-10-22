@@ -32,15 +32,15 @@ describe('2) Model Usage', () => {
   })
 
   test('get movie ID=2', async () => {
-    expect(getMovieWithId2()).toBe("Men in Black II");
+    expect(await getMovieWithId2()).toBe("Men in Black II");
   })
 
   test('get all actors', async () => {
-    expect(getAllActors()).toEqual(["Will Smith", "Rosario Dawson", "Robert Downey Jr."]);
+    expect(await getAllActors()).toEqual(["Will Smith", "Rosario Dawson", "Robert Downey Jr."]);
   })
 
   test('get all movies from 2008', async () => {
-    expect(getAllMoviesFrom2008()).toEqual(["Seven Pounds", "Eagle Eye", "Tropic Thunder"]);
+    expect(await getAllMoviesFrom2008()).toEqual(["Seven Pounds", "Eagle Eye", "Tropic Thunder"]);
   })
 
   test('delete genre you added', async () => {
