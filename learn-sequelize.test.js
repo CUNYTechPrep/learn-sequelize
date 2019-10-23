@@ -50,6 +50,7 @@ describe('2) Model Usage', () => {
   })
 
   test('associate rosario with Eagle Eye', async () => {
+    await associateRosarioToEagleEye();
     return Actor.findByPk(2)
       .then(r => r.getMovies())
       .then(movies => {
@@ -58,6 +59,7 @@ describe('2) Model Usage', () => {
   })
 
   test('associate robert with Tropic Thunder', async () => {
+    await associateRobertToTropicThunder();
     return Actor.findByPk(3)
       .then(r => r.getMovies())
       .then(movies => {
