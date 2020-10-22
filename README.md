@@ -5,7 +5,7 @@ This repository contains a sample database of Movies, Actors, and Genres. It use
 ```
 # clone this repo to your computer
 npm install
-npm test -- --watch
+npm test -- --watchAll
 ```
 
 This will run all of the tests, and continuously re-run them as you implement the functions in the file `learn-sequelize.js`.
