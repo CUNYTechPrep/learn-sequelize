@@ -1,8 +1,8 @@
 const { Genre } = require('./models');
 
 /*
-  currently, the genre table only has: Action, Adventure, and Drama
-  Add one more Genre.
+  currently, the genre table only has 3 entries: Action, Adventure, and Drama
+  Add one more Genre of your choice.
 */
 function insertNewGenre() {
 
