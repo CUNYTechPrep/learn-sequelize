@@ -7,12 +7,12 @@
     "test": "jest"
   },
   "author": "Edgardo Molina",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "jest": "^26.6.0"
+    "jest": "26.6.3"
   },
   "dependencies": {
-    "sequelize": "^5.22.3",
-    "sqlite3": "^4.2.0"
+    "sequelize": "5.22.4",
+    "sqlite3": "5.0.2"
   }
 }

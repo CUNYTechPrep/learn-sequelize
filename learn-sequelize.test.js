@@ -14,7 +14,7 @@ const {
 
 
 
-describe('2) Model Usage', () => {
+describe('Sequelize Model Usage', () => {
   beforeAll(() => {
     return seed();
   })
@@ -67,5 +67,5 @@ describe('2) Model Usage', () => {
       })
   })
 
-  
+
 })
