@@ -49,6 +49,18 @@ const seed = () => {
           })
       });
       return Promise.all(associationPromises);
+    }).then(() => {
+      /*
+        Postgres only fix:
+          Since we provided fixed id's for our seed data,
+          we have to reset our id sequences in postgres.
+          (ONLY do this for Models with autoincrementing id's)
+      */
+      let genreReset = db.sequelize.query(`select setval('genres_id_seq', (select max(id) from genres), true);`)
+      let movieReset = db.sequelize.query(`select setval('movies_id_seq', (select max(id) from movies), true);`)
+      let actorReset = db.sequelize.query(`select setval('actors_id_seq', (select max(id) from actors), true);`)
+
+      return Promise.all([genreReset, movieReset, actorReset])
     });
 }
 

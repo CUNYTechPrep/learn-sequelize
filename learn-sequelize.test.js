@@ -1,4 +1,4 @@
-const { Genre, Movie, Actor } = require('./models');
+const { Genre, Movie, Actor, sequelize } = require('./models');
 const seed = require('./seed');
 
 const {
@@ -19,6 +19,10 @@ describe('Sequelize Model Usage', () => {
     return seed();
   })
 
+  afterAll(() => {
+    return sequelize.close();
+  })
+
   test('insert new genre', async () => {
     await insertNewGenre();
     genres = await Genre.findAll();
@@ -36,11 +40,11 @@ describe('Sequelize Model Usage', () => {
   })
 
   test('get all actors', async () => {
-    expect(await getAllActors()).toEqual(["Will Smith", "Rosario Dawson", "Robert Downey Jr."]);
+    expect((await getAllActors()).sort()).toEqual(["Will Smith", "Rosario Dawson", "Robert Downey Jr."].sort());
   })
 
   test('get all movies from 2008', async () => {
-    expect(await getAllMoviesFrom2008()).toEqual(["Seven Pounds", "Eagle Eye", "Tropic Thunder"]);
+    expect((await getAllMoviesFrom2008()).sort()).toEqual(["Seven Pounds", "Eagle Eye", "Tropic Thunder"].sort());
   })
 
   test('delete genre you added', async () => {

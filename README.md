@@ -3,6 +3,9 @@
 This repository contains a sample database of Movies, Actors, and Genres. It uses the sequelize.js library to create database models. In this repo we will be learning how to use sequelize.js by implementing functions and making their tests pass. You can run the code and tests as follows:
 
 ```
+# create the test database
+createdb -h localhost -U ctp_user learn_sequelize
+
 # clone this repo to your computer
 npm install
 npm test -- --watchAll
@@ -16,26 +19,29 @@ You can use the following resources to learn more about the Sequelize.js library
 
 ## Data Types
 
-https://sequelize.org/v5/manual/data-types.html
+https://sequelize.org/master/manual/model-basics.html#data-types
 
 ## Model Definition (How to create models)
 
-https://sequelize.org/v5/manual/models-definition.html
+https://sequelize.org/master/manual/model-basics.html#model-definition
 
-## Model Usage (How to query the DB)
+> Use the `Extending Model` section
 
-https://sequelize.org/v5/manual/models-usage.html
+## Model Querying and Finders (How to query the DB)
+
+https://sequelize.org/master/manual/model-querying-basics.html
+https://sequelize.org/master/manual/model-querying-finders.html
 
 - `.findByPk()`
 - `.findOne()`
 - `.findAll()`
-- using WHERE `{ where: { column: value }}`
-- using AND/OR: https://sequelize.org/v5/manual/models-usage.html#complex-filtering---or---not-queries
-- All Options for complex WHERE querying, limiting, ordering (sort) https://sequelize.org/v5/manual/querying.html
+- using WHERE: `{ where: { column: value }}`
+- using AND/OR
+- All Options for complex WHERE querying, limiting, ordering (sort)
 
 ## Working with a record Instance
 
-https://sequelize.org/v5/manual/instances.html
+https://sequelize.org/master/manual/model-instances.html
 
 - `.create()`
 - updating fields and `.save()`
@@ -43,4 +49,4 @@ https://sequelize.org/v5/manual/instances.html
 
 ## Making and Using Model Associations
 
-https://sequelize.org/v5/manual/associations.html
+https://sequelize.org/master/manual/assocs.html

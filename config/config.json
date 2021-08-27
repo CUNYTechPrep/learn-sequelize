@@ -1,11 +1,17 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "./db_dev.sqlite3"
+    "username": "ctp_user",
+    "password": "ctp_pass",
+    "database": "learn_sequelize",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   },
   "test": {
-    "dialect": "sqlite",
-    "storage": ":memory:",
+    "username": "ctp_user",
+    "password": "ctp_pass",
+    "database": "learn_sequelize",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
     "logging": false
   }
 }
