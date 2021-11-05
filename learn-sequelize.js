@@ -1,10 +1,18 @@
 const { Genre } = require('./models');
+const { Movie } = require('./models');
+const { Actor } = require('./models');
 
 /*
   currently, the genre table only has 3 entries: Action, Comedy, and Drama
   Add one more Genre of your choice.
 */
 function insertNewGenre() {
+
+  let g = Genre.build();
+
+  g.name = "Thriller";
+
+  return g.save()
 
 }
 
@@ -14,12 +22,22 @@ function insertNewGenre() {
 */
 function insertNewMovie() {
 
+  return Movie.create({title: 'Candyman', year: '2021'})
+
 }
 
 /*
   Return the title of the movie with ID=2
 */
 function getMovieWithId2() {
+  
+  return Movie.findByPk(2)
+
+    .then(movie => {
+
+      return movie.get('title');
+
+    });
 
 }
 
@@ -28,6 +46,13 @@ function getMovieWithId2() {
 */
 function getAllActors() {
 
+  return Actor.findAll( {attributes: ["name"]})
+  .then( actors => {
+
+    return actors.map(arg => arg.name);
+
+  });
+
 }
 
 /*
@@ -35,12 +60,29 @@ function getAllActors() {
 */
 function getAllMoviesFrom2008() {
 
+  return Movie
+
+    .findAll( {where: { year: 2008 } } )
+
+    .then(( movies ) =>{
+
+      return movies.map( (m) => m.title);
+
+    });
+
 }
 
 /*
   Delete the genre you added in the first test
 */
 function deleteGenreYouAdded() {
+
+  return Genre.findOne({where : {name: "Thriller"}})
+  .then((g) => {
+
+    return g.destroy();
+
+  })
 
 }
 
@@ -50,6 +92,19 @@ function deleteGenreYouAdded() {
 */
 function associateRosarioToEagleEye() {
 
+  let moviePromise = Movie.findOne( { where: { title: "Eagle Eye"}});
+
+  let actorPromise = Actor.findOne( { where: { name: "Rosaro Dawson"}});
+
+  return Promise
+    .all( [ moviePromise, actorPromise])
+    
+    .then (([movieResult, actorResult]) => {
+
+      return movieResult.addActor(actorResult);
+
+    })
+
 }
 
 /*
@@ -57,6 +112,12 @@ function associateRosarioToEagleEye() {
   Add this association.
 */
 function associateRobertToTropicThunder() {
+
+  let robert = await Actor.findOne( {where: {name: "Robert Downey Jr."}});
+
+  let movie = await Movie.findOne({where: {title: "Tropic Thunder"}});
+
+  return movie.addActor(robert);
 
 }
 
