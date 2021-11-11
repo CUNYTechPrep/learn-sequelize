@@ -29,39 +29,35 @@ const MOVIES_ACTORS = [
   {movieId: 3, actorId: 2},
 ];
 
-const seed = () => {
-  return db.sequelize.sync({force: true})
-    .then(() => {
-      // Create all the entries
-      let genrePromises = GENRES.map(g => Genre.create(g));
-      let moviePromises = MOVIES.map(m => Movie.create(m));
-      let actorPromises = ACTORS.map(a => Actor.create(a));
-      return Promise.all([...genrePromises, ...moviePromises, ...actorPromises]);
-    })
-    .then(() => {
-      // Create the associations
-      let associationPromises = MOVIES_ACTORS.map(ma => {
-        let moviePromise = Movie.findByPk(ma.movieId);
-        let actorPromise = Actor.findByPk(ma.actorId);
-        return Promise.all([moviePromise, actorPromise])
-          .then(([movie, actor]) => {
-            return movie.addActor(actor);
-          })
-      });
-      return Promise.all(associationPromises);
-    }).then(() => {
-      /*
-        Postgres only fix:
-          Since we provided fixed id's for our seed data,
-          we have to reset our id sequences in postgres.
-          (ONLY do this for Models with autoincrementing id's)
-      */
-      let genreReset = db.sequelize.query(`select setval('genres_id_seq', (select max(id) from genres), true);`)
-      let movieReset = db.sequelize.query(`select setval('movies_id_seq', (select max(id) from movies), true);`)
-      let actorReset = db.sequelize.query(`select setval('actors_id_seq', (select max(id) from actors), true);`)
+const seed = async () => {
+  await db.sequelize.sync({force: true});
 
-      return Promise.all([genreReset, movieReset, actorReset])
-    });
+  await Promise.all(GENRES.map(g => Genre.create(g)));
+  await Promise.all(MOVIES.map(m => Movie.create(m)));
+  await Promise.all(ACTORS.map(a => Actor.create(a)));
+
+  // Create the associations
+  let associationPromises = MOVIES_ACTORS.map(ma => {
+    let moviePromise = Movie.findByPk(ma.movieId);
+    let actorPromise = Actor.findByPk(ma.actorId);
+    return Promise.all([moviePromise, actorPromise])
+      .then(([movie, actor]) => {
+        return movie.addActor(actor);
+      })
+  })
+  await Promise.all(associationPromises);
+
+  /*
+    Postgres only fix:
+      Since we provided fixed id's for our seed data,
+      we have to reset our id sequences in postgres.
+      (ONLY do this for Models with autoincrementing id's)
+  */
+  let genreReset = db.sequelize.query(`select setval('genres_id_seq', (select max(id) from genres), true);`);
+  let movieReset = db.sequelize.query(`select setval('movies_id_seq', (select max(id) from movies), true);`);
+  let actorReset = db.sequelize.query(`select setval('actors_id_seq', (select max(id) from actors), true);`);
+
+  await Promise.all([genreReset, movieReset, actorReset]);
 }
 
 module.exports = seed;
