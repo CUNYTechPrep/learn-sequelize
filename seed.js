@@ -64,13 +64,13 @@ const seed = () => {
           (ONLY do this for Models with autoincrementing id's)
       */
       let genreReset = db.sequelize.query(
-        `select setval('genres_id_seq', (select max(id) from genres), true);`
+        `select setval('"Genres_id_seq"', (select max(id) from "Genres"), true);`
       );
       let movieReset = db.sequelize.query(
-        `select setval('movies_id_seq', (select max(id) from movies), true);`
+        `select setval('"Movies_id_seq"', (select max(id) from "Movies"), true);`
       );
       let actorReset = db.sequelize.query(
-        `select setval('actors_id_seq', (select max(id) from actors), true);`
+        `select setval('"Actors_id_seq"', (select max(id) from "Actors"), true);`
       );
 
       return Promise.all([genreReset, movieReset, actorReset]);
