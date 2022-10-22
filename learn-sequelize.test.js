@@ -23,13 +23,13 @@ describe("Sequelize Model Usage", () => {
 
   test("insert new genre", async () => {
     await insertNewGenre();
-    genres = await Genre.findAll();
+    let genres = await Genre.findAll();
     expect(genres.length).toBe(4);
   });
 
   test("insert new Movie", async () => {
     await insertNewMovie();
-    movies = await Movie.findAll();
+    let movies = await Movie.findAll();
     expect(movies.length).toBe(6);
   });
 
@@ -51,7 +51,7 @@ describe("Sequelize Model Usage", () => {
 
   test("delete genre you added", async () => {
     await deleteGenreYouAdded();
-    genres = await Genre.findAll();
+    let genres = await Genre.findAll();
     expect(genres.length).toBe(3);
   });
 
@@ -61,6 +61,7 @@ describe("Sequelize Model Usage", () => {
       .then((r) => r.getMovies())
       .then((movies) => {
         expect(movies.length).toBe(3);
+        expect(movies.map((m) => m.title)).toContain("Eagle Eye");
       });
   });
 
@@ -70,6 +71,7 @@ describe("Sequelize Model Usage", () => {
       .then((r) => r.getMovies())
       .then((movies) => {
         expect(movies.length).toBe(1);
+        expect(movies.map((m) => m.title)).toContain("Tropic Thunder");
       });
   });
 });
