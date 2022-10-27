@@ -1,4 +1,4 @@
-const { Genre, Movie, Actor } = require("./models");
+const { Genre, Movie, Actor, sequelize } = require("./models");
 
 /*
   Write a function that creates a new Genre in the database
@@ -6,8 +6,8 @@ const { Genre, Movie, Actor } = require("./models");
   - add one more Genre of your choice
   - duplicate entries are not allowed (try it to learn about errors)
 */
-function insertNewGenre() {
-  // Add code here
+async function insertNewGenre() {
+  await Genre.create({name: "Sci-Fi"});
 }
 
 /*
@@ -16,36 +16,45 @@ function insertNewGenre() {
   - add one more Movie of your choice.
   - the movie CANNOT be from year 2008 (try it to learn about errors)
 */
-function insertNewMovie() {
-  // Add code here
+async function insertNewMovie() {
+  await Movie.create({name: "Star Wars"});
 }
 
 /*
   Write a function that returns the title of the movie with ID=2
 */
-function getMovieWithId2() {
-  // Add code here
+async function getMovieWithId2() {
+  const movieWithId2 = await Movie.findByPk(2);
+  return movieWithId2.title;
 }
 
 /*
   Write a function that returns an array of all the actor names
 */
-function getAllActors() {
-  // Add code here
+async function getAllActors() {
+  let allActors = await Actor.findAll();
+  return allActors.map(actor => actor.name);
 }
 
 /*
   Write a function that returns an array of all the movie titles from 2008
 */
-function getAllMoviesFrom2008() {
-  // Add code here
+async function getAllMoviesFrom2008() {
+  let movieYears = await Movie.findAll({where: {year: 2008}});
+  return movieYears.map(movie => movie.title);
 }
 
 /*
   Write a function that deletes the genre you added in the first function: insertNewGenre()
 */
-function deleteGenreYouAdded() {
-  // Add code here
+async function deleteGenreYouAdded() {
+  await Genre.destroy(
+    {
+      where: {
+        name: "Sci-Fi"
+      }
+    }
+  );
 }
 
 /*
@@ -54,8 +63,10 @@ function deleteGenreYouAdded() {
   - the actor and movie record already exist in the database
   - add the association record to the database
 */
-function associateRosarioToEagleEye() {
-  // Add code here
+async function associateRosarioToEagleEye() {
+  let movie = await Movie.findByPk(4);
+  let actor = await Actor.findByPk(2);
+  await actor.addMovie(movie);
 }
 
 /*
@@ -65,7 +76,9 @@ function associateRosarioToEagleEye() {
   - add the association record to the database
 */
 async function associateRobertToTropicThunder() {
-  // Add code here
+  let movie = await Movie.findByPk(5);
+  let actor = await Actor.findByPk(3);
+  await actor.addMovie(movie)
 }
 
 module.exports = {
