@@ -7,7 +7,8 @@ const { Genre, Movie, Actor } = require("./models");
   - duplicate entries are not allowed (try it to learn about errors)
 */
 function insertNewGenre() {
-  // Add code here
+    // Add code here
+    return Genre.create({ name: "Thriller" });
 }
 
 /*
@@ -17,35 +18,55 @@ function insertNewGenre() {
   - the movie CANNOT be from year 2008 (try it to learn about errors)
 */
 function insertNewMovie() {
-  // Add code here
+    // Add code here
+    let movie = Movie.build({ title: "The Godfather", year: 1972 });
+    return movie.save();
 }
 
 /*
   Write a function that returns the title of the movie with ID=2
 */
 function getMovieWithId2() {
-  // Add code here
+    // Add code here
+    return Movie.findByPk(2).then((movie2) => {
+        return movie2.title;
+    });
 }
 
 /*
   Write a function that returns an array of all the actor names
 */
 function getAllActors() {
-  // Add code here
+    // Add code here
+    return Actor.findAll().then((actor) => {
+        let nameArr = [];
+        actor.forEach((actor) => {
+            nameArr.push(actor.name);
+        });
+        return nameArr;
+    });
 }
 
 /*
   Write a function that returns an array of all the movie titles from 2008
 */
 function getAllMoviesFrom2008() {
-  // Add code here
+    // Add code here
+    return Movie.findAll({ where: { year: 2008 } }).then((movies) => {
+        let movieArr = [];
+        movies.forEach((movie) => {
+            movieArr.push(movie.title);
+        });
+        return movieArr;
+    });
 }
 
 /*
   Write a function that deletes the genre you added in the first function: insertNewGenre()
 */
 function deleteGenreYouAdded() {
-  // Add code here
+    // Add code here
+    return Genre.destroy({ where: { name: "Thriller" } });
 }
 
 /*
@@ -55,7 +76,16 @@ function deleteGenreYouAdded() {
   - add the association record to the database
 */
 function associateRosarioToEagleEye() {
-  // Add code here
+    // Add code here
+    return Actor.findOne({ where: { name: "Rosario Dawson" } }).then(
+        (actor) => {
+            return Movie.findOne({ where: { title: "Eagle Eye" } }).then(
+                (movie) => {
+                    return movie.addActor(actor);
+                }
+            );
+        }
+    );
 }
 
 /*
@@ -65,7 +95,10 @@ function associateRosarioToEagleEye() {
   - add the association record to the database
 */
 async function associateRobertToTropicThunder() {
-  // Add code here
+    // Add code here
+    let actor = await Actor.findOne({ where: { name: "Robert Downey Jr." } });
+    let movie = await Movie.findOne({ where: { title: "Tropic Thunder" } });
+    return movie.addActor(actor);
 }
 
 module.exports = {
