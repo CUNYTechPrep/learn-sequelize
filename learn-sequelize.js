@@ -9,7 +9,6 @@ async function insertNewGenre() {
   }
 }
 
-
 async function insertNewMovie() {
   try {
     const newMovie = await Movie.create({ title: 'The Dark Knight', year: 2019 });
@@ -18,7 +17,6 @@ async function insertNewMovie() {
     console.error("Error adding movie:", error);
   }
 }
-
 
 async function getMovieWithId2() {
   try {
@@ -29,7 +27,6 @@ async function getMovieWithId2() {
   }
 }
 
-
 async function getAllActors() {
   try {
     const actors = await Actor.findAll();
@@ -38,7 +35,6 @@ async function getAllActors() {
     console.error("Error fetching actors:", error);
   }
 }
-
 
 async function getAllMoviesFrom2008() {
   try {
@@ -49,7 +45,6 @@ async function getAllMoviesFrom2008() {
   }
 }
 
-
 async function deleteGenreYouAdded() {
   try {
     await Genre.destroy({ where: { name: 'Horror' } });
@@ -58,7 +53,6 @@ async function deleteGenreYouAdded() {
     console.error("Error deleting genre:", error);
   }
 }
-
 
 async function associateRosarioToEagleEye() {
   try {
@@ -70,8 +64,6 @@ async function associateRosarioToEagleEye() {
     console.error("Error associating actor with movie:", error);
   }
 }
-
-
 
 async function associateRobertToTropicThunder() {
   try {
@@ -94,4 +86,3 @@ module.exports = {
   associateRosarioToEagleEye,
   associateRobertToTropicThunder,
 };
-
