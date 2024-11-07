@@ -6,8 +6,13 @@ const { Genre, Movie, Actor } = require("./models");
   - add one more Genre of your choice
   - duplicate entries are not allowed (try it to learn about errors)
 */
-function insertNewGenre() {
+async function insertNewGenre() {
   // Add code here
+  try{
+    const genre = await Genre.create({name:"Roman"})
+  } catch (error){
+    console.log(error);
+  }
 }
 
 /*
@@ -16,36 +21,66 @@ function insertNewGenre() {
   - add one more Movie of your choice.
   - the movie CANNOT be from year 2008 (try it to learn about errors)
 */
-function insertNewMovie() {
+async function insertNewMovie(moviename) {
   // Add code here
+  try{
+    const movie = await Movie.create({name: moviename})
+
+  } catch(error){
+    console.log(error);
+  }
 }
 
 /*
   Write a function that returns the title of the movie with ID=2
 */
-function getMovieWithId2() {
+async function getMovieWithId2() {
   // Add code here
+  try{
+    const id2movie = await Movie.findOne({where:{id: 2}});
+    if(id2movie != null){
+        return id2movie.title;
+    } else {
+      return "not found";
+    }
+  } catch (error){
+    console.log(error);
+  }
 }
 
 /*
   Write a function that returns an array of all the actor names
 */
-function getAllActors() {
+async function getAllActors() {
   // Add code here
+  const actor = await Actor.findAll();
+  return actor.map(actor=>actor.name);
 }
 
 /*
   Write a function that returns an array of all the movie titles from 2008
 */
-function getAllMoviesFrom2008() {
+async function getAllMoviesFrom2008() {
   // Add code here
+  try{
+    const movies = await Movie.findAll({where:{year: 2008} });
+    return movies.map(movies=>movies.title);
+  }catch(error){
+    console.log(error);
+  }
 }
 
 /*
   Write a function that deletes the genre you added in the first function: insertNewGenre()
 */
-function deleteGenreYouAdded() {
+async function deleteGenreYouAdded() {
   // Add code here
+  try{
+    const newGenre = await Genre.findOne({where:{name:"Roman"}});
+    await newGenre.destroy();
+  }catch (error){
+    console.log(error);
+  }
 }
 
 /*
@@ -54,8 +89,10 @@ function deleteGenreYouAdded() {
   - the actor and movie record already exist in the database
   - add the association record to the database
 */
-function associateRosarioToEagleEye() {
-  // Add code here
+async function associateRosarioToEagleEye() {
+    const Rosario = await Actor.findOne({where:{name:"Rosario Dawson"}});
+    const Eagle = await Movie.findOne({where:{title:"Eagle Eye"}});
+    await Eagle.addActor(Rosario);
 }
 
 /*
@@ -66,6 +103,9 @@ function associateRosarioToEagleEye() {
 */
 async function associateRobertToTropicThunder() {
   // Add code here
+  const Robert = await Actor.findOne({where:{name:"Robert Downey Jr."}});
+  const Tropic = await Movie.findOne({where:{title:"Tropic Thunder"}});
+  await Tropic.addActor(Robert);
 }
 
 module.exports = {
