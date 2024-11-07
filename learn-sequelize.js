@@ -6,9 +6,18 @@ const { Genre, Movie, Actor } = require("./models");
   - add one more Genre of your choice
   - duplicate entries are not allowed (try it to learn about errors)
 */
-function insertNewGenre() {
-  // Add code here
+async function insertNewGenre() {
+  try {
+    const [genre, created] = await Genre.findOrCreate({
+      where: { name: 'Romance' },
+      defaults: { name: 'Romance' },
+    });
+    console.log(created ? "Genre created." : "Genre already exists.");
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /*
   Write a function that creates a new Movie in the database
@@ -16,37 +25,86 @@ function insertNewGenre() {
   - add one more Movie of your choice.
   - the movie CANNOT be from year 2008 (try it to learn about errors)
 */
-function insertNewMovie() {
-  // Add code here
+async function insertNewMovie() {
+  try {
+    const [movie, created] = await Movie.findOrCreate({
+      where: { title: 'HeartBreakHotel' },
+      defaults: {
+        title: 'HeartBreakHotel',
+        year: "2005",
+      },
+    });
+    console.log(created ? "Movie created." : "Movie already exists.");
+  } catch (err) {
+    console.log(err);
+  }
 }
+
+
 
 /*
   Write a function that returns the title of the movie with ID=2
 */
-function getMovieWithId2() {
-  // Add code here
+async function getMovieWithId2() {
+  const movie = await Movie.findByPk(2);
+  if (movie === null) {
+    console.log('Movie not found!');
+    return null;
+  } else {
+    console.log(`Movie title with ID=2: ${movie.title}`);
+    return movie.title;
+  }
 }
+
 
 /*
   Write a function that returns an array of all the actor names
 */
-function getAllActors() {
-  // Add code here
+async function getAllActors() {
+  try {
+    const actors = await Actor.findAll();
+    const actorNames = actors.map(actor => actor.name);
+    console.log("All Actor Names:", actorNames);
+    return actorNames;
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /*
   Write a function that returns an array of all the movie titles from 2008
 */
-function getAllMoviesFrom2008() {
-  // Add code here
+async function getAllMoviesFrom2008() {
+  try {
+    const movies2008 = await Movie.findAll({ where: { year: '2008' } });
+    if (movies2008.length === 0) {
+      console.log('No movies found from 2008');
+    } else {
+      const movieTitles = movies2008.map(movie => movie.title);
+      console.log("Movies from 2008:", movieTitles);
+      return movieTitles;
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /*
   Write a function that deletes the genre you added in the first function: insertNewGenre()
 */
-function deleteGenreYouAdded() {
-  // Add code here
+async function deleteGenreYouAdded() {
+  try {
+    const deleted = await Genre.destroy({
+      where: { name: 'Romance' },
+    });
+    console.log(deleted ? "Genre deleted." : "Genre not found.");
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /*
   Write a function that associates:
@@ -54,9 +112,21 @@ function deleteGenreYouAdded() {
   - the actor and movie record already exist in the database
   - add the association record to the database
 */
-function associateRosarioToEagleEye() {
-  // Add code here
+async function associateRosarioToEagleEye() {
+  try {
+    const actor = await Actor.findOne({ where: { name: "Rosario Dawson" } });
+    const movie = await Movie.findOne({ where: { title: "Eagle Eye" } });
+    if (actor && movie) {
+      await actor.addMovie(movie);
+      console.log("Associated Rosario Dawson with Eagle Eye.");
+    } else {
+      console.log("Actor or movie not found.");
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
+
 
 /*
   Write a function that associates:
@@ -65,7 +135,18 @@ function associateRosarioToEagleEye() {
   - add the association record to the database
 */
 async function associateRobertToTropicThunder() {
-  // Add code here
+  try {
+    const actor = await Actor.findOne({ where: { name: "Robert Downey Jr." } });
+    const movie = await Movie.findOne({ where: { title: "Tropic Thunder" } });
+    if (actor && movie) {
+      await actor.addMovie(movie);
+      console.log("Associated Robert Downey Jr. with Tropic Thunder.");
+    } else {
+      console.log("Actor or movie not found.");
+    }
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 module.exports = {
