@@ -6,12 +6,13 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
-  "test": {
-    "username": "ctp_user",
-    "password": "ctp_pass",
-    "database": "learn_sequelize",
-    "host": "127.0.0.1",
-    "dialect": "postgres",
-    "logging": false
-  }
+    "test": {
+		"use_env_variable": "DATABASE_URL",
+	    "dialect": "postgres",
+	    "dialectOptions": {
+	      "ssl": {
+	        "rejectUnauthorized": false
+	      }
+	    }
+	}
 }
