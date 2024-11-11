@@ -10,7 +10,12 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+
+  sequelize = new Sequelize(
+    "postgresql://postgres.sgeqliohbvztbqllylji:endeavorandconquer!@aws-0-us-east-1.pooler.supabase.com:6543/postgres",
+    config
+  );
+  
 } else {
   sequelize = new Sequelize(
     config.database,
