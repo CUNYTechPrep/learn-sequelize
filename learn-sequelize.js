@@ -6,8 +6,13 @@ const { Genre, Movie, Actor } = require("./models");
   - add one more Genre of your choice
   - duplicate entries are not allowed (try it to learn about errors)
 */
-function insertNewGenre() {
-  // Add code here
+async function insertNewGenre() {
+  try {
+    const newGenre = await Genre.create({ name: 'Sci-Fi' });
+    return newGenre;
+  } catch (error) {
+    console.error("Error creating new genre:", error);
+  }
 }
 
 /*
@@ -16,36 +21,61 @@ function insertNewGenre() {
   - add one more Movie of your choice.
   - the movie CANNOT be from year 2008 (try it to learn about errors)
 */
-function insertNewMovie() {
-  // Add code here
+async function insertNewMovie() {
+  try {
+    const newMovie = await Movie.create({ title: 'Inception', year: 2010 });
+    return newMovie;
+  } catch (error) {
+    console.error("Error creating new movie:", error);
+  }
 }
 
 /*
   Write a function that returns the title of the movie with ID=2
 */
-function getMovieWithId2() {
-  // Add code here
+async function getMovieWithId2() {
+  try {
+    const movie = await Movie.findByPk(2);
+    return movie ? movie.title : null;
+  } catch (error) {
+    console.error("Error retrieving movie with ID=2:", error);
+  }
 }
 
 /*
   Write a function that returns an array of all the actor names
 */
-function getAllActors() {
-  // Add code here
+async function getAllActors() {
+  try {
+    const actors = await Actor.findAll();
+    return actors.map(actor => actor.name);
+  } catch (error) {
+    console.error("Error retrieving all actors:", error);
+  }
 }
 
 /*
   Write a function that returns an array of all the movie titles from 2008
 */
-function getAllMoviesFrom2008() {
-  // Add code here
+async function getAllMoviesFrom2008() {
+  try {
+    const movies = await Movie.findAll({ where: { year: 2008 } });
+    return movies.map(movie => movie.title);
+  } catch (error) {
+    console.error("Error retrieving movies from 2008:", error);
+  }
 }
 
 /*
   Write a function that deletes the genre you added in the first function: insertNewGenre()
 */
-function deleteGenreYouAdded() {
-  // Add code here
+async function deleteGenreYouAdded() {
+  try {
+    const deleted = await Genre.destroy({ where: { name: 'Sci-Fi' } });
+    return deleted;
+  } catch (error) {
+    console.error("Error deleting genre:", error);
+  }
 }
 
 /*
@@ -54,8 +84,19 @@ function deleteGenreYouAdded() {
   - the actor and movie record already exist in the database
   - add the association record to the database
 */
-function associateRosarioToEagleEye() {
-  // Add code here
+async function associateRosarioToEagleEye() {
+  try {
+    const actor = await Actor.findOne({ where: { name: 'Rosario Dawson' } });
+    const movie = await Movie.findOne({ where: { title: 'Eagle Eye' } });
+    if (actor && movie) {
+      await actor.addMovie(movie);
+      return "Association created successfully";
+    } else {
+      return "Actor or Movie not found";
+    }
+  } catch (error) {
+    console.error("Error associating Rosario Dawson to Eagle Eye:", error);
+  }
 }
 
 /*
@@ -65,7 +106,18 @@ function associateRosarioToEagleEye() {
   - add the association record to the database
 */
 async function associateRobertToTropicThunder() {
-  // Add code here
+  try {
+    const actor = await Actor.findOne({ where: { name: 'Robert Downey Jr.' } });
+    const movie = await Movie.findOne({ where: { title: 'Tropic Thunder' } });
+    if (actor && movie) {
+      await movie.addActor(actor);
+      return "Association created successfully";
+    } else {
+      return "Actor or Movie not found";
+    }
+  } catch (error) {
+    console.error("Error associating Robert Downey Jr. to Tropic Thunder:", error);
+  }
 }
 
 module.exports = {
