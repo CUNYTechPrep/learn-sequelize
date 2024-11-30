@@ -45,7 +45,7 @@ describe("Sequelize Model Usage", () => {
 
   test("get all movies from 2008", async () => {
     expect((await getAllMoviesFrom2008()).sort()).toEqual(
-      ["Seven Pounds", "Eagle Eye", "Tropic Thunder"].sort()
+      ["Seven Pounds", "Avengers", "Tropic Thunder"].sort()
     );
   });
 
