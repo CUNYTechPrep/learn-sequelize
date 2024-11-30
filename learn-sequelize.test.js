@@ -34,12 +34,12 @@ describe("Sequelize Model Usage", () => {
   });
 
   test("get movie ID=2", async () => {
-    expect(await getMovieWithId2()).toBe("Men in Black II");
+    expect(await getMovieWithId2()).toBe("Thor");
   });
 
   test("get all actors", async () => {
     expect((await getAllActors()).sort()).toEqual(
-      ["Will Smith", "Rosario Dawson", "Robert Downey Jr."].sort()
+      ["Will Smith", "Rosario Dawson", "Denzel Washington"].sort()
     );
   });
 
